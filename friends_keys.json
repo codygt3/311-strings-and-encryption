@@ -1,0 +1,52 @@
+{
+    "David": {
+        "public_key": [
+            65537,
+            119941
+        ],
+        "private_key": [
+            90305,
+            119941
+        ]
+    },
+    "Alice": {
+        "public_key": [
+            65537,
+            48133
+        ],
+        "private_key": [
+            10925,
+            48133
+        ]
+    },
+    "Eve": {
+        "public_key": [
+            65537,
+            34387
+        ],
+        "private_key": [
+            13473,
+            34387
+        ]
+    },
+    "Charlie": {
+        "public_key": [
+            65537,
+            53461
+        ],
+        "private_key": [
+            24065,
+            53461
+        ]
+    },
+    "Bob": {
+        "public_key": [
+            65537,
+            22499
+        ],
+        "private_key": [
+            19673,
+            22499
+        ]
+    }
+}
