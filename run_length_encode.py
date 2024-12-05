@@ -13,7 +13,24 @@ def run_length_encode(sender, receiver, message):
         dict: A formatted message created with create_message, including the encoded message and metadata.
               Metadata includes the encoding type ('run-length') and original message length.
     """
-    return create_message(sender, receiver, {"original_length": 11}, "Placeholder")
+    # Run-length encoding algorithm
+    encoded_message = []
+    i = 0
+    while i < len(message):
+        count = 1
+        while i + 1 < len(message) and message[i] == message[i + 1]:
+            count += 1
+            i += 1
+        encoded_message.append(f"{message[i]}{count}")
+        i += 1
+
+    # Join encoded parts and add metadata
+    encoded_message_str = ''.join(encoded_message)
+    metadata = {
+        "encoding_type": "run-length",
+        "original_length": len(message)
+    }
+    return create_message(sender, receiver, metadata, encoded_message_str)
 
 def run_length_decode(encoded_message, original_length):
     """
@@ -26,4 +43,17 @@ def run_length_decode(encoded_message, original_length):
     Returns:
         str: The original uncompressed message.
     """
-    return "Placeholder"
+    # Run-length decoding algorithm
+    decoded_message = []
+    i = 0
+    while i < len(encoded_message):
+        char = encoded_message[i]
+        count = ""
+        i += 1
+        while i < len(encoded_message) and encoded_message[i].isdigit():
+            count += encoded_message[i]
+            i += 1
+        decoded_message.append(char * int(count))
+
+    # Join the decoded parts
+    return ''.join(decoded_message)
