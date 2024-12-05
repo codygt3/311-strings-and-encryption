@@ -12,9 +12,6 @@ def mod_exp(base, exp, mod):
         base = (base * base) % mod
     return result
 
-def hash_message(message):
-    return int(hashlib.sha256(message.encode()).hexdigest(), 16)
-
 def sign_message(sender, receiver, private_key, message):
     """
     Signs a message by encrypting its hash with the sender's private key and returns a formatted message.
