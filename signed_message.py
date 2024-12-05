@@ -1,4 +1,19 @@
+import hashlib
 from create_message import create_message
+
+# Helper function to perform modular exponentiation
+def mod_exp(base, exp, mod):
+    result = 1
+    base = base % mod
+    while exp > 0:
+        if exp % 2 == 1:
+            result = (result * base) % mod
+        exp = exp // 2
+        base = (base * base) % mod
+    return result
+
+def hash_message(message):
+    return int(hashlib.sha256(message.encode()).hexdigest(), 16)
 
 def sign_message(sender, receiver, private_key, message):
     """
@@ -13,7 +28,11 @@ def sign_message(sender, receiver, private_key, message):
     Returns:
         dict: A formatted message created with create_message, including the signature in the metadata.
     """
-    return create_message(sender, receiver, {"signature": "Placeholder"}, "Placeholder")
+    d, n = private_key
+    hashed_message = int(hashlib.sha256(message.encode()).hexdigest(), 16)
+    truncated_hash = hashed_message % n
+    signature = mod_exp(truncated_hash, d, n)
+    return create_message(sender, receiver, {"signature": str(signature)}, message)
 
 def validate_signature(public_key, message, signature):
     """
@@ -27,7 +46,11 @@ def validate_signature(public_key, message, signature):
     Returns:
         bool: True if the signature is valid, False otherwise.
     """
-    return True
+    e, n = public_key
+    hashed_message = int(hashlib.sha256(message.encode()).hexdigest(), 16)
+    truncated_hash = hashed_message % n
+    decrypted_hash = mod_exp(int(signature), e, n)
+    return truncated_hash == decrypted_hash
 
 def respond_to_signed_message(sender, receiver, private_key, public_key, received_message):
 # OPTIONAL, WE ALREADY HAVE 3 PROBLEMS DONE, THIS IS EXTRA IF YOU WANT
